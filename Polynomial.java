@@ -17,28 +17,28 @@ public class Polynomial {
 		}
 	}
 
-public Polynomial add(Polynomial poly) {
-
-    int len1 = coefficients.length;
-    int len2 = poly.coefficients.length;
-
-    double[] result;
-
-    if (len1 > len2) {
-    	result = new double[len1];
-    } else {
-    	result = new double[len2];
-    }
-
-    for (int i = 0; i < coefficients.length; i++) {
-        result[i] += coefficients[i];
-    }
-    for (int i = 0; i < poly.coefficients.length; i++) {
-        result[i] += poly.coefficients[i];
-    }
-
-    return new Polynomial(result);
-}
+	public Polynomial add(Polynomial poly) {
+	
+	    int len1 = coefficients.length;
+	    int len2 = poly.coefficients.length;
+	
+	    double[] result;
+	
+	    if (len1 > len2) {
+	    	result = new double[len1];
+	    } else {
+	    	result = new double[len2];
+	    }
+	
+	    for (int i = 0; i < coefficients.length; i++) {
+	        result[i] += coefficients[i];
+	    }
+	    for (int i = 0; i < poly.coefficients.length; i++) {
+	        result[i] += poly.coefficients[i];
+	    }
+	
+	    return new Polynomial(result);
+	}
 
 
 	public double evaluate(double x) {
