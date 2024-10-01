@@ -1,4 +1,3 @@
-
 import java.lang.Math;
 
 public class Polynomial {
@@ -42,25 +41,25 @@ public class Polynomial {
 	}
 	
 	// method to concatenate two arrays of type int
-		private double [] concatenate(double [] coef) {
-			int len = coefficients.length + coef.length;
-			double [] result = new double [len];
-			
-			for (int i = 0; i < coefficients.length; i++) {
-				result[i] = coefficients[i];
-			}
-			for (int i = 0; i < coef.length; i++) {
-				result[coefficients.length + i] = coef[i];
-			}
-			
-			return result;
+	private double [] concatenate(double [] coef) {
+		int len = coefficients.length + coef.length;
+		double [] result = new double [len];
+		
+		for (int i = 0; i < coefficients.length; i++) {
+			result[i] = coefficients[i];
 		}
+		for (int i = 0; i < coef.length; i++) {
+			result[coefficients.length + i] = coef[i];
+		}
+		
+		return result;
+	}
 	
     // method to combine like terms in a polynomial
     private Polynomial combine(Polynomial poly) {
     	int length = poly.coefficients.length;
-        double[] finalCoefficients = new double[length];
-        int[] finalExponents = new int[length];
+        double [] finalCoefficients = new double[length];
+        int [] finalExponents = new int[length];
         int finalIndex = 0;
 
         for (int i = 0; i < length; i++) {
@@ -84,20 +83,19 @@ public class Polynomial {
         }
 
         // cutting out unnecessary tail of the arrays
-        double[] resultCoefficients = new double[finalIndex];
-        int[] resultExponents = new int[finalIndex];
+        double [] resultCoefficients = new double[finalIndex];
+        int [] resultExponents = new int[finalIndex];
         for (int i = 0; i < finalIndex; i++) {
             resultCoefficients[i] = finalCoefficients[i];
             resultExponents[i] = finalExponents[i];
         }
-
         return new Polynomial(resultCoefficients, resultExponents);
     }
 	
 	public Polynomial add(Polynomial poly) {
 		
-		int[] allExp = concatenate(poly.exponents);
-	    double[] allCoef = concatenate(poly.coefficients);
+		int [] allExp = concatenate(poly.exponents);
+	    double [] allCoef = concatenate(poly.coefficients);
 	    
 	    Polynomial result = new Polynomial(allCoef, allExp);
 		
@@ -117,7 +115,22 @@ public class Polynomial {
 	public boolean hasRoot (double x) {
 		return evaluate(x) == 0;
 	}
+	
+	public Polynomial multiply (Polynomial poly) {
+		int length = coefficients.length * poly.coefficients.length;
+		double [] resultCoefficients = new double[length];
+		int [] resultExponents = new int[length];
+		int index = 0;
+		
+		for (int i = 0; i < coefficients.length; i++) {
+			for (int j = 0; j < poly.coefficients.length; j++) {
+				resultCoefficients[index] = coefficients[i] * poly.coefficients[j];
+				resultExponents[index] = exponents[i] + poly.exponents[j];
+				index++;
+			}
+		}
+		Polynomial result = new Polynomial(resultCoefficients, resultExponents);
+		return combine(result);
+	}
 }
-
-
 
