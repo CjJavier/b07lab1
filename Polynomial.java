@@ -68,8 +68,7 @@ public class Polynomial {
 		return false;
 	}
 	
-	// this method combines terms with common exponents in the calling
-	// object's polynomial
+	// this method combines terms with common exponents in the calling object's polynomial
 	public void combine() {
 		int len = getDistinct(exponents);
 		double [] result_c = new double [len];
@@ -94,8 +93,7 @@ public class Polynomial {
 		exponents = result_e;
 	}
 	
-	// this method combines terms with common exponents in the polynomial
-	// provided in the argument
+	// this method combines terms with common exponents in the polynomial provided in the argument
 	public void combine(Polynomial poly) {
 		int len = getDistinct(poly.exponents);
 		double [] result_c = new double [len];
