@@ -24,47 +24,121 @@ public class Polynomial {
 			exponents[i] = b[i];
 		}
 	}
-/*
-	public int search_exp(int [] exp, int a) {
+	
+	// method to concatenate two arrays of type int
+	private int [] concatenate(int [] exp) {
+		int len = exponents.length + exp.length;
+		int [] result = new int [len];
+		
+		for (int i = 0; i < exponents.length; i++) {
+			result[i] = exponents[i];
+		}
+		for (int i = exponents.length; i < exp.length; i++) {
+			result[i] = exp[i];
+		}
+		
+		return result;
+	}
+	
+	// argument should be the concatenated exponents of the two polynomials
+	private int getDistinct(int [] exp) {
+		if (exp.length == 0)
+			return 0;
+		
+		int counter = 0;
+		
 		for (int i = 0; i < exp.length; i++) {
-			if (exp[i] == a)
+			int checkCommon = exp[i];
+			for (int j = i + 1; j < exp.length; j++) {
+				if (checkCommon == exp[j])
+					break;
+				else if (j == exp.length - 1)
+					counter++;
+			}
+		}
+		return counter + 1;
+	}
+	
+	// this method checks if an array contains a certain value
+	public boolean contains(int [] arr, int start, int end, int val) {
+		for (int i = 0; i < end; i++) {
+			if (arr[i] == val)
 				return true;
 		}
 		return false;
 	}
-*/
-/*
-	// method to get the length of the result polynomial after adding two polynomials
-	public int get_length(Polynomial poly) {
-
-		int result = 0;
-		// for every distinct exponent we find, add it to result
-		for (int i = 0; i)
-
+	
+	// this method combines terms with common exponents in the calling
+	// object's polynomial
+	public void combine() {
+		int len = getDistinct(exponents);
+		double [] result_c = new double [len];
+		int [] result_e = new int [len];
+		
+		for (int i = 0; i < len; i++) {
+			if (contains(exponents, 0, i, exponents[i]) == false) {
+				result_e[i] = exponents[i];
+				result_c[i] = coefficients[i];
+			}
+			else {
+				continue; // skip this iteration because we already took
+						  // this exponent into account
+			}
+			for (int j = 0; j < exponents.length; j++) {
+				if (result_e[i] == exponents[j]) {
+					result_c[i] += coefficients[j];
+				}
+			}
+		}
+		coefficients = result_c;
+		exponents = result_e;
 	}
-*/
+	
+	// this method combines terms with common exponents in the polynomial
+	// provided in the argument
+	public void combine(Polynomial poly) {
+		int len = getDistinct(poly.exponents);
+		double [] result_c = new double [len];
+		int [] result_e = new int [len];
+		
+		for (int i = 0; i < len; i++) {
+			if (contains(poly.exponents, 0, i, poly.exponents[i]) == false) {
+				result_e[i] = poly.exponents[i];
+				result_c[i] = poly.coefficients[i];
+			}
+			else {
+				continue; // skip this iteration because we already took
+						  // this exponent into account
+			}
+			for (int j = 0; j < poly.exponents.length; j++) {
+				if (result_e[i] == poly.exponents[j]) {
+					result_c[i] += poly.coefficients[j];
+				}
+			}
+		}
+		poly.coefficients = result_c;
+		poly.exponents = result_e;
+	}
+
 	public Polynomial add(Polynomial poly) {
-	
-	    int len1 = coefficients.length;
-	    int len2 = poly.coefficients.length;
-
-	
-	    double [] result_c;
-	    int [] result_e;
-	    int counter = 0;
-
-	    if (len1 > len2) {
-	    	result_c = new double[len1];
-	    	result_e = new int[len1];
-
-	    } else {
-	    	result_c = new double[len2];
-	    	result_e = new int[len2];
-	    }
-
-	    
-	
-	    return new Polynomial(result_c, result_e);
+		
+		// get length of resulting polynomial after adding
+		int [] allExp = concatenate(poly.exponents);
+		int len = getDistinct(allExp);
+		
+		// now we can initialize the resulting arrays
+		// of coefficients and polynomials
+		double [] result_c = new double [len];
+		int [] result_e = new int [len];
+		
+		// combining all like terms
+		combine();
+		combine(poly);
+		
+		// adding the two polynomials together
+		// ...
+		
+		return Polynomial(result_c, result_e);
 	}
 
 
@@ -72,7 +146,7 @@ public class Polynomial {
 		int len = coefficients.length;
 		double result = 0;
 		for (int i = 0; i < len; i++) {
-			result += coefficients[i]*(Math.pow(x, i));
+			result += coefficients[i]*(Math.pow(x, exponents[i]));
 		}
 		return result;
 	}
@@ -95,10 +169,6 @@ public class Polynomial {
 
 	} */
 }
-
-
-
-
 
 
 
